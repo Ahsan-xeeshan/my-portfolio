@@ -5,30 +5,60 @@ import { motion, AnimatePresence } from "framer-motion";
 import avatar from "../assets/avatar-me.jpg";
 
 import TypingIndicator from "./TypingIndicator";
-
 import TypewriterText from "./TypewriterText";
 
 import { topics } from "../data/qaData";
-
 import TopicContent from "./TopicContent";
 
-const Chat = ({ messages = [], isTyping = false }) => {
+const Chat = ({
+  messages = [],
+  isTyping = false,
+  onSendMessage,
+}) => {
   const chatContainerRef = useRef(null);
   const bottomRef = useRef(null);
+  const contentRef = useRef(null);
 
-  // Track which assistant messages have finished typing
   const [completedMessages, setCompletedMessages] = useState({});
 
-  // Automatically scroll to newest content
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
+  /*
+   * Scroll to the bottom
+   */
+  const scrollToBottom = (behavior = "smooth") => {
+    requestAnimationFrame(() => {
+      bottomRef.current?.scrollIntoView({
+        behavior,
+        block: "end",
+      });
     });
+  };
+
+  /*
+   * Scroll whenever messages / typing / typewriter state changes
+   */
+  useEffect(() => {
+    scrollToBottom();
   }, [messages, isTyping, completedMessages]);
 
+  /*
+   * Keep latest content visible while
+   * TypewriterText / TopicContent changes height.
+   */
+  useEffect(() => {
+    if (!contentRef.current) return;
+
+    const observer = new ResizeObserver(() => {
+      scrollToBottom();
+    });
+
+    observer.observe(contentRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const handleIntroComplete = (messageId) => {
-    // Small pause after the topic/intro finishes
     setTimeout(() => {
       setCompletedMessages((previous) => ({
         ...previous,
@@ -40,91 +70,210 @@ const Chat = ({ messages = [], isTyping = false }) => {
   return (
     <div
       ref={chatContainerRef}
-      className="h-full overflow-y-auto pr-2 scrollbar-hide"
+      className="
+        h-full
+        min-h-0
+        w-full
+        overflow-y-auto
+        scrollbar-hide
+
+        px-0
+        sm:pr-2
+      "
     >
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-2 pb-8 pt-4">
+      <div
+        ref={contentRef}
+        className="
+          mx-auto
+          flex
+          w-full
+          max-w-4xl
+          flex-col
+
+          gap-4
+          px-1
+          pb-20
+          pt-3
+
+          min-[400px]:gap-5
+          min-[400px]:px-2
+          min-[400px]:pb-24
+          min-[400px]:pt-4
+
+          sm:gap-6
+          sm:pb-32
+        "
+      >
         <AnimatePresence initial={false}>
           {messages.map((message) => {
             const isUser = message.role === "user";
 
             const topicData =
-              !isUser && message.topic ? topics[message.topic] : null;
+              !isUser && message.topic
+                ? topics[message.topic]
+                : null;
 
-            const introFinished = completedMessages[message.id] === true;
+            const introFinished =
+              completedMessages[message.id] === true;
 
             return (
               <motion.div
                 key={message.id}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
+                initial={{
+                  opacity: 0,
+                  y: 16,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                exit={{
+                  opacity: 0,
+                  y: -8,
+                }}
                 transition={{
                   duration: 0.45,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className={`flex w-full items-start gap-3 ${
-                  isUser ? "justify-end" : "justify-start"
-                }`}
+                className={`
+                  flex
+                  w-full
+                  items-start
+                  gap-2
+
+                  min-[400px]:gap-3
+
+                  ${
+                    isUser
+                      ? "justify-end"
+                      : "justify-start"
+                  }
+                `}
               >
-                {/* Assistant avatar */}
+                {/* Assistant Avatar */}
                 {!isUser && (
-                  <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-white/5">
+                  <div
+                    className="
+                      h-9
+                      w-9
+                      shrink-0
+                      overflow-hidden
+                      rounded-full
+                      bg-surface
+                      ring-1
+                      ring-border
+
+                      min-[400px]:h-10
+                      min-[400px]:w-10
+
+                      sm:h-12
+                      sm:w-12
+                    "
+                  >
                     <img
                       src={avatar}
                       alt="Nazmul Ahsan"
-                      className="h-full w-full object-cover"
+                      className="
+                        h-full
+                        w-full
+                        object-cover
+                      "
                     />
                   </div>
                 )}
 
                 {/* Message */}
                 <div
-                  className={`max-w-[75%] ${
-                    isUser ? "flex flex-col items-end" : ""
-                  }`}
+                  className={`
+                    min-w-0
+                    max-w-[88%]
+
+                    min-[400px]:max-w-[82%]
+
+                    sm:max-w-[75%]
+
+                    ${
+                      isUser
+                        ? "flex flex-col items-end"
+                        : ""
+                    }
+                  `}
                 >
                   {isUser ? (
-                    /* User message */
-                    <div className="rounded-2xl rounded-tr-md bg-(--accent) px-5 py-3 text-white shadow-soft-2">
-                      <p className="font-open-sans text-sm leading-7">
+                    /* User Message */
+                    <div
+                      className="
+                        rounded-2xl
+                        rounded-tr-md
+                        bg-(--accent)
+                        px-4
+                        py-2.5
+                        text-white
+                        shadow-soft-2
+
+                        min-[400px]:px-5
+                        min-[400px]:py-3
+                      "
+                    >
+                      <p
+                        className="
+                          font-open-sans
+                          text-xs
+                          leading-6
+
+                          min-[400px]:text-sm
+                          min-[400px]:leading-7
+                        "
+                      >
                         {message.text}
                       </p>
                     </div>
                   ) : (
-                    /* Assistant message */
-                    <div className="pt-1">
-                      {/* STEP 1
-                          Topic / intro types completely first
-                      */}
+                    /* Assistant Message */
+                    <div
+                      className="
+                        pt-0.5
+                        text-text-primary
+                      "
+                    >
+                      {/* STEP 1 — Intro types first */}
                       <TypewriterText
                         text={message.text}
                         speed={55}
-                        onComplete={() => handleIntroComplete(message.id)}
+                        onComplete={() =>
+                          handleIntroComplete(
+                            message.id
+                          )
+                        }
                       />
 
-                      {/* STEP 2
-                          Only starts AFTER intro is completely finished
-                      */}
+                      {/* STEP 2 — Content appears after typing */}
                       <AnimatePresence>
-                        {topicData && introFinished && (
-                          <motion.div
-                            key={`topic-${message.id}`}
-                            initial={{
-                              opacity: 0,
-                              y: 8,
-                            }}
-                            animate={{
-                              opacity: 1,
-                              y: 0,
-                            }}
-                            transition={{
-                              duration: 0.35,
-                              ease: "easeOut",
-                            }}
-                          >
-                            <TopicContent topicData={topicData} />
-                          </motion.div>
-                        )}
+                        {topicData &&
+                          introFinished && (
+                            <motion.div
+                              key={`topic-${message.id}`}
+                              initial={{
+                                opacity: 0,
+                                y: 8,
+                              }}
+                              animate={{
+                                opacity: 1,
+                                y: 0,
+                              }}
+                              transition={{
+                                duration: 0.35,
+                                ease: "easeOut",
+                              }}
+                            >
+                              <TopicContent
+                                topicData={topicData}
+                                onSendMessage={
+                                  onSendMessage
+                                }
+                              />
+                            </motion.div>
+                          )}
                       </AnimatePresence>
                     </div>
                   )}
@@ -133,11 +282,15 @@ const Chat = ({ messages = [], isTyping = false }) => {
             );
           })}
 
-          {/* Typing indicator */}
+          {/* Typing Indicator */}
           {isTyping && <TypingIndicator />}
         </AnimatePresence>
 
-        <div ref={bottomRef} className="h-px w-full" />
+        {/* Scroll target */}
+        <div
+          ref={bottomRef}
+          className="h-px w-full"
+        />
       </div>
     </div>
   );

@@ -23,7 +23,19 @@ const TypingIndicator = () => {
       className="flex w-full items-start gap-3"
     >
       {/* Avatar */}
-      <div className="h-12 w-12 shrink-0 overflow-hidden rounded-full bg-white/5">
+
+      <div
+        className="
+          h-12
+          w-12
+          shrink-0
+          overflow-hidden
+          rounded-full
+          bg-surface
+          ring-1
+          ring-border
+        "
+      >
         <img
           src={avatar}
           alt="Nazmul Ahsan"
@@ -32,6 +44,7 @@ const TypingIndicator = () => {
       </div>
 
       {/* Typing dots */}
+
       <div className="pt-5">
         <div className="flex items-center gap-1.5">
           {[0, 1, 2].map((index) => (
@@ -47,7 +60,12 @@ const TypingIndicator = () => {
                 delay: index * 0.15,
                 ease: "easeInOut",
               }}
-              className="h-1.5 w-1.5 rounded-full bg-white/60"
+              className="
+                h-1.5
+                w-1.5
+                rounded-full
+                bg-(--text-secondary)
+              "
             />
           ))}
         </div>

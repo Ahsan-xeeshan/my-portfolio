@@ -9,7 +9,9 @@ const ThemeToggle = () => {
       return savedTheme === "dark";
     }
 
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
   });
 
   useEffect(() => {
@@ -29,7 +31,9 @@ const ThemeToggle = () => {
       type="button"
       onClick={() => setDarkMode((previous) => !previous)}
       aria-label={
-        darkMode ? "Switch to light mode" : "Switch to dark mode"
+        darkMode
+          ? "Switch to light mode"
+          : "Switch to dark mode"
       }
       whileHover={{
         scale: 1.08,
@@ -59,15 +63,21 @@ const ThemeToggle = () => {
         shadow-sm
         transition-all
         duration-300
-        hover:border-(--accent)/50
+        hover:border-accent/50
         hover:bg-surface-hover
-        hover:text-(--accent)
-        hover:shadow-[0_0_18px_rgba(77,150,255,0.18)]
+        hover:text-accent
+        hover:shadow-[0_0_18px_rgba(124,58,237,0.18)]
       "
     >
       {/* Hover glow */}
       <motion.span
-        className="pointer-events-none absolute inset-0 rounded-lg bg-(--accent)/10"
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          rounded-lg
+          bg-accent/10
+        "
         initial={{
           opacity: 0,
           scale: 0.7,
@@ -82,7 +92,10 @@ const ThemeToggle = () => {
         }}
       />
 
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence
+        mode="wait"
+        initial={false}
+      >
         {darkMode ? (
           <motion.svg
             key="sun"
@@ -122,7 +135,11 @@ const ThemeToggle = () => {
               d="M12 3v1.5M12 19.5V21M4.22 4.22l1.06 1.06M18.72 18.72l1.06 1.06M3 12h1.5M19.5 12H21M4.22 19.78l1.06-1.06M18.72 5.28l1.06-1.06"
             />
 
-            <circle cx="12" cy="12" r="3.5" />
+            <circle
+              cx="12"
+              cy="12"
+              r="3.5"
+            />
           </motion.svg>
         ) : (
           <motion.svg

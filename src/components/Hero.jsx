@@ -17,27 +17,44 @@ const Hero = () => {
 
   const handleSendMessage = (input, selectedTopic = null) => {
     if (isTyping) return;
+
     const trimmedInput = input?.trim();
+
     if (!trimmedInput && !selectedTopic) return;
+
     const topic = selectedTopic || resolveTopic(trimmedInput);
+
     const topicData = topic ? topics[topic] : null;
+
     const userText = trimmedInput || topicData?.question || "Tell me more";
-    const userMessage = { id: Date.now(), role: "user", text: userText };
+
+    const userMessage = {
+      id: Date.now(),
+      role: "user",
+      text: userText,
+    };
+
     const assistantMessage = {
       id: Date.now() + 1,
       role: "assistant",
       topic,
       text: topicData?.intro || fallbackAnswer,
     };
+
     const fromSuggestion = Boolean(selectedTopic);
+
     setIsSuggestionTyping(fromSuggestion);
     setIsChatStarted(true);
+
     setMessages((previous) => [...previous, userMessage]);
+
     setTimeout(() => {
       setIsTyping(true);
+
       setTimeout(() => {
         setIsTyping(false);
         setIsSuggestionTyping(false);
+
         setMessages((previous) => [...previous, assistantMessage]);
       }, 1000);
     }, 500);
@@ -45,26 +62,42 @@ const Hero = () => {
 
   return (
     <section
-      className="relative h-screen overflow-hidden bg-hero-background px-7 pb-8 shadow-lg"
+      className="
+        relative
+        h-screen
+        overflow-hidden
+        bg-hero-background
+        px-7
+        pb-8
+        shadow-lg
+      "
       aria-label="Hero"
     >
       {/* Theme toggle */}
-      <div className="absolute right-6 top-6 z-40">
+
+      <div className="absolute left-5 top-5 z-40 sm:left-auto sm:right-6 sm:top-6">
         <ThemeToggle />
       </div>
 
       {/* Main content */}
+
       <div className="flex h-full flex-col">
         {/* Chat / Intro area */}
+
         <div className="min-h-0 flex-1">
           {!isChatStarted ? (
             <Intro onSendMessage={handleSendMessage} isTyping={isTyping} />
           ) : (
-            <Chat messages={messages} isTyping={isTyping} />
+            <Chat
+              messages={messages}
+              isTyping={isTyping}
+              onSendMessage={handleSendMessage}
+            />
           )}
         </div>
 
         {/* Bottom area */}
+
         <div className="relative z-30 shrink-0 pt-4">
           <CommandBar
             onSendMessage={handleSendMessage}
@@ -73,13 +106,25 @@ const Hero = () => {
             isSuggestionTyping={isSuggestionTyping}
           />
 
+          {/* Helper text */}
+
           <div className="mt-4 flex justify-center">
-            <p className="flex items-center gap-2 text-center font-open-sans text-sm text-text-muted">
+            <p
+              className="
+                flex
+                items-center
+                gap-2
+                text-center
+                font-open-sans
+                text-sm
+                text-text-muted
+              "
+            >
               <LuMessageCircleMore className="shrink-0 text-base" />
 
               <span>
-                You can ask me about: age · CV · education · experience · awards
-                · hobbies
+                You can ask me about: age · CV · education · experience ·
+                hobbies
               </span>
             </p>
           </div>
