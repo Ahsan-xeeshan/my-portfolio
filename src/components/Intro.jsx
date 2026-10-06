@@ -4,29 +4,58 @@ import ResumeBillboard from "./ResumeBillboard";
 
 const Intro = ({ onSendMessage, isTyping }) => {
   return (
-    <div className="mx-auto flex flex-col items-center pt-16 text-center">
-      {/* Hello Badge */}
+    <div
+      className="
+        mx-auto
+        flex
+        min-h-full
+        w-full
+        max-w-7xl
+        flex-col
+        items-center
+        justify-center
+        px-4
+        py-8
+        text-center
 
-      <div className="relative inline-block">
-        <div className="aura aura-rainbow aura-xs z-50 duration-2000">
+        sm:px-6
+        sm:py-10
+
+        md:justify-start
+        md:px-8
+        md:pt-16
+        md:pb-0
+
+        lg:px-10
+      "
+    >
+      {/* =========================
+          Hello Badge
+      ========================== */}
+
+      <div className="relative inline-block shrink-0">
+        <div className="aura aura-rainbow aura-xs z-5 duration-2000">
           <div
             className="
               badge
-              badge-lg
+              badge-md
               border
               border-border
               bg-surface
-              px-5
-              py-3
+              px-4
+              py-2
               text-text-primary
               shadow-sm
+              sm:badge-lg
+              sm:px-5
+              sm:py-3
             "
           >
             <p>Hello</p>
           </div>
         </div>
 
-        {/* Decorative lines */}
+        {/* Decorative Lines */}
 
         <span
           className="
@@ -34,9 +63,10 @@ const Intro = ({ onSendMessage, isTyping }) => {
             -right-1
             -top-1
             h-0.5
-            w-4
+            w-3
             rotate-105
             bg-(--accent)
+            sm:w-4
           "
         />
 
@@ -46,23 +76,33 @@ const Intro = ({ onSendMessage, isTyping }) => {
             -right-2
             top-1
             h-0.5
-            w-5
+            w-4
             rotate-125
             bg-(--accent)
+            sm:w-5
           "
         />
       </div>
 
-      {/* Heading */}
+      {/* =========================
+          Heading
+      ========================== */}
 
       <div
         className="
           mt-4
-          text-5xl
+          w-full
+          shrink-0
+          text-4xl
           font-bold
-          leading-tight
+          leading-[1.08]
           text-text-primary
-          sm:text-6xl
+
+          sm:mt-5
+          sm:text-5xl
+
+          md:text-6xl
+
           lg:text-7xl
         "
       >
@@ -73,72 +113,102 @@ const Intro = ({ onSendMessage, isTyping }) => {
         <h2>Web Developer</h2>
       </div>
 
-      {/* Image + Animation */}
+      {/* =========================
+          Mobile Buttons
+      ========================== */}
+
+      <div
+        className="
+          mt-6
+          flex
+          w-full
+          justify-center
+          md:hidden
+        "
+      >
+        <CommentButton
+          onSendMessage={onSendMessage}
+          isTyping={isTyping}
+        />
+      </div>
+
+      {/* =========================
+          Desktop Image
+      ========================== */}
 
       <div
         className="
           relative
           mt-6
-          flex
-          h-96
+          hidden
+          h-80
           w-full
-          max-w-96
+          max-w-80
           items-center
           justify-center
+
+          sm:mt-8
+
+          md:flex
+          md:h-96
+          md:max-w-96
         "
       >
-        {/* Animated outer glow */}
+        {/* Outer Glow */}
 
         <div
           aria-hidden="true"
           className="
             pointer-events-none
             absolute
-            h-72
-            w-72
+            h-60
+            w-60
             rounded-full
             bg-(--accent)/20
             blur-3xl
             animate-pulse
-            sm:h-84
-            sm:w-84
+
+            md:h-72
+            md:w-72
           "
         />
 
-        {/* Rotating ring */}
+        {/* Rotating Ring */}
 
         <div
           aria-hidden="true"
           className="
             pointer-events-none
             absolute
-            h-56
-            w-56
+            h-52
+            w-52
             rounded-full
             border
             border-(--accent)/30
             animate-[spin_8s_linear_infinite]
-            sm:h-64
-            sm:w-64
+
+            md:h-56
+            md:w-56
           "
         />
 
-        {/* Second rotating ring */}
+        {/* Dashed Ring */}
 
         <div
           aria-hidden="true"
           className="
             pointer-events-none
             absolute
-            h-64
-            w-64
+            h-60
+            w-60
             rounded-full
             border
             border-dashed
             border-(--accent)/20
             animate-[spin_14s_linear_infinite_reverse]
-            sm:h-72
-            sm:w-72
+
+            md:h-64
+            md:w-64
           "
         />
 
@@ -150,18 +220,22 @@ const Intro = ({ onSendMessage, isTyping }) => {
           className="
             relative
             z-10
-            w-72
-            max-w-[85vw]
+            w-64
             object-contain
             drop-shadow-2xl
-            sm:w-80
-            md:w-96
+
+            md:w-80
+
+            lg:w-96
           "
         />
 
-        {/* Comment Button */}
+        {/* Desktop Buttons */}
 
-        <CommentButton onSendMessage={onSendMessage} isTyping={isTyping} />
+        <CommentButton
+          onSendMessage={onSendMessage}
+          isTyping={isTyping}
+        />
 
         {/* Resume Billboard */}
 

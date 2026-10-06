@@ -75,7 +75,7 @@ const Hero = () => {
     >
       {/* Theme toggle */}
 
-      <div className="absolute left-5 top-5 z-40 sm:left-auto sm:right-6 sm:top-6">
+      <div className="absolute left-5 top-5 z-5 sm:left-auto sm:right-6 sm:top-6">
         <ThemeToggle />
       </div>
 
@@ -108,21 +108,32 @@ const Hero = () => {
 
           {/* Helper text */}
 
-          <div className="mt-4 flex justify-center">
+          <div className="mt-4 flex justify-center px-3 sm:px-4">
             <p
               className="
-                flex
-                items-center
-                gap-2
-                text-center
-                font-open-sans
-                text-sm
-                text-text-muted
-              "
+      flex
+      max-w-full
+      items-start
+      justify-center
+      gap-2
+      text-center
+      font-open-sans
+      text-xs
+      leading-relaxed
+      text-text-muted
+      sm:text-sm
+    "
             >
-              <LuMessageCircleMore className="shrink-0 text-base" />
+              <LuMessageCircleMore
+                className="
+        mt-0.5
+        shrink-0
+        text-sm
+        sm:text-base
+      "
+              />
 
-              <span>
+              <span className="max-w-[320px] sm:max-w-none">
                 You can ask me about: age · CV · education · experience ·
                 hobbies
               </span>
