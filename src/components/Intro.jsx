@@ -27,8 +27,6 @@ const Intro = ({ onSendMessage, isTyping }) => {
         md:pb-0
 
         lg:px-10
-        lg:pt-24
-        lg:pb-56
       "
     >
       {/* =========================
