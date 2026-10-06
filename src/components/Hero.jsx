@@ -98,7 +98,7 @@ const Hero = () => {
 
         {/* Bottom area */}
 
-        <div className="relative z-30 shrink-0 pt-4">
+       <div className="relative z-30 shrink-0 pt-0">
           <CommandBar
             onSendMessage={handleSendMessage}
             isTyping={isTyping}

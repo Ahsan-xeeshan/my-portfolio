@@ -23,10 +23,12 @@ const Intro = ({ onSendMessage, isTyping }) => {
 
         md:justify-start
         md:px-8
-        md:pt-16
+        md:pt-36
         md:pb-0
 
         lg:px-10
+        lg:pt-24
+        lg:pb-56
       "
     >
       {/* =========================
@@ -136,24 +138,25 @@ const Intro = ({ onSendMessage, isTyping }) => {
           Desktop Image
       ========================== */}
 
-      <div
-        className="
-          relative
-          mt-6
-          hidden
-          h-80
-          w-full
-          max-w-80
-          items-center
-          justify-center
+    <div
+  className="
+    relative
+    mt-4
+    hidden
+    h-72
+    w-full
+    max-w-72
+    items-center
+    justify-center
 
-          sm:mt-8
+    md:flex
+    md:h-80
+    md:max-w-80
 
-          md:flex
-          md:h-96
-          md:max-w-96
-        "
-      >
+    lg:h-88
+    lg:max-w-88
+  "
+>
         {/* Outer Glow */}
 
         <div
